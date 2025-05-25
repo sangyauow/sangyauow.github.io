@@ -19,6 +19,25 @@
         return array[0] % max;
       }
 
+      // Determine redirect index
+      const total = counts[0] + counts[1];
+      let index;
+
+      if (total < 10) {
+        index = getRandomInt(links.length);
+      } else {
+        const diff = counts[0] - counts[1];
+        if (Math.abs(diff) > 2) {
+          index = diff > 0 ? 1 : 0;
+        } else {
+          index = getRandomInt(links.length);
+        }
+      }
+
+      // Update and save counts
+      counts[index]++;
+      localStorage.setItem(key, JSON.stringify(counts));
+
       // Redirect
       window.location.replace(links[index]);
     });
