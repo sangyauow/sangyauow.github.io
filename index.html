@@ -1,17 +1,34 @@
-!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Redirecting...</title>
+  <!-- Prevents caching -->
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+  <meta http-equiv="Pragma" content="no-cache" />
+  <meta http-equiv="Expires" content="0" />
   <script>
     document.addEventListener("DOMContentLoaded", function () {
       const links = [
         "https://forms.office.com/Pages/ResponsePage.aspx?id=_5c8u7URN0uSzxiXsth2a9MhpGBWOZZNlBmHBZVw7qRUMTRRU1dSWVdHSlZZSVhFVDY3NlVNVENMVi4u",
         "https://forms.office.com/Pages/ResponsePage.aspx?id=_5c8u7URN0uSzxiXsth2a9MhpGBWOZZNlBmHBZVw7qRUNEJVTkFHMlQwR1BNTkFTSFpVRUw3TUpHUy4u"
       ];
-      const randomLink = links[Math.floor(Math.random() * links.length)];
-      window.location.replace(randomLink);
+
+      // extra shuffling: using seed value based on current timestamp
+      const seed = Date.now();
+      const shuffled = links
+        .map(link => ({ link, sort: Math.random() + (seed % 100) / 100 }))
+        .sort((a, b) => a.sort - b.sort)
+        .map(item => item.link);
+
+      const randomIndex = Math.floor(Math.random() * shuffled.length);
+      const chosen = shuffled[randomIndex];
+
+      //Optional: shows which link was picked
+      console.log("Redirecting to:", chosen);
+
+      window.location.replace(chosen);
     });
   </script>
 </head>
